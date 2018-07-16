@@ -1,0 +1,28 @@
+{
+  "name": "banano-token",
+  "version": "0.0.1",
+  "description": "A ERC-721 Token used in the Banano Quest app",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pokt-network/banano-token.git"
+  },
+  "keywords": [
+    "blockchain",
+    "banano quest",
+    "banano",
+    "erc721",
+    "nft",
+    "crypto",
+    "cryptocollectible"
+  ],
+  "author": "Luis C. de Leon <luis@pokt.network>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pokt-network/banano-token/issues"
+  },
+  "homepage": "https://github.com/pokt-network/banano-token#readme"
+}
