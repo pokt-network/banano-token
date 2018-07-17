@@ -1,0 +1,27 @@
+{
+  "contracts": {
+    "BananoToken": {
+      "address": "0x1abfad472c2f1be25b3ddd9e9b4f51f56855b9be",
+      "bytecodeHash": "8ad55e15408b8fdc5f108a6c668729e42b8b42934503b22240a1a6e02a54fafc"
+    }
+  },
+  "proxies": {
+    "BananoToken": [
+      {
+        "address": "0x822b22c36b07a116affaf294484697cff8a505e7",
+        "version": "0.0.1",
+        "implementation": "0x1abfad472c2f1be25b3ddd9e9b4f51f56855b9be"
+      }
+    ]
+  },
+  "app": {
+    "address": "0x0f87c3dff28c2027d603e6f0db8ddafd3a38d72e"
+  },
+  "version": "0.0.1",
+  "package": {
+    "address": "0x33526de8ada28d64775e887512021397e74ac3d8"
+  },
+  "provider": {
+    "address": "0xabc9638938a248bad29df3e57f10c39eb660e46f"
+  }
+}
