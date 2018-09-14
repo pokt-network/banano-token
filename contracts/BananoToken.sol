@@ -12,9 +12,10 @@ contract BananoToken is MintableERC721Token, TavernQuestReward {
     mapping(uint256 => string) internal tokenMetadata;
     mapping(uint256 => uint256) internal tokenQuestIndex;
     address internal tavernAddress;
+    address[] internal tokenOwnersIndex;
 
     // Initializer
-    function initialize(address _owner, address _tavernAddress) isInitializer("BananoToken", "0.0.1") public {
+    function initialize(address _owner, address _tavernAddress) isInitializer("BananoToken", "0.0.2") public {
         require(!initialized);
         require(isValidAddress(_owner) == true);
         require(isValidAddress(_tavernAddress) == true);
@@ -52,6 +53,12 @@ contract BananoToken is MintableERC721Token, TavernQuestReward {
 
         // Mint the token
         super._mint(_winner, nextTokenId);
+
+        // Add to owners index if not exists
+        // We check for 1 because the _mint function will increase by 1 the count
+        if (ownedTokensCount[_winner] == 1) {
+            tokenOwnersIndex.push(_winner);
+        }
 
         // Set token metadata
         _setTokenMetadata(nextTokenId, _questMetadata);
@@ -94,5 +101,14 @@ contract BananoToken is MintableERC721Token, TavernQuestReward {
 
     function isValidTavern(address _addressToCheck) internal view returns (bool) {
         return _addressToCheck == tavernAddress;
+    }
+
+    function getOwnersCount() public view returns (uint256) {
+        return tokenOwnersIndex.length;
+    }
+
+    function getOwnerTokenCountByIndex(uint256 _ownerIndex) public view returns (address, uint256) {
+        address owner = tokenOwnersIndex[_ownerIndex];
+        return(owner, ownedTokensCount[owner]);
     }
 }

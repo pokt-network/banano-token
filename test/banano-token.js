@@ -97,4 +97,47 @@ contract('BananoToken', function (accounts) {
       assert.ok(isClaimer);
     });
   });
+
+  // This tests the "leaderboard" functionality getter methods
+  describe('.tokenOwnersIndex', function() {
+    it('should add the user to the leaderboard when they complete a quest', async function() {
+      // First create the quest
+      const questTxResult = await shouldCreateValidQuest(
+                                  40.6893,
+                                  -74.0447,
+                                  'This is a quest',
+                                  'This is a hint',
+                                  10,
+                                  'some metadata',
+                                  {from: accounts[0]}
+                                );
+
+      // Have a player guess the answer
+      const player = accounts[1],
+            questIndex = questTxResult.logs[0].args._questIndex.toNumber(),
+            merkleBody = await tavernProxy.getQuestMerkleBody(bananoTokenProxy.address, questIndex),
+            playerSubmission = TestUtils.generatePlayerSubmission(40.6894,-74.0447, merkleBody);
+
+      const submitProofTx = await tavernProxy.submitProof(
+                                    bananoTokenProxy.address,
+                                    questIndex,
+                                    playerSubmission.proof,
+                                    playerSubmission.answer,
+                                    {
+                                      from: player
+                                    }
+                                  );
+
+      // Assert that player is in the leaderboard
+      const ownersCount = await bananoTokenProxy.getOwnersCount();
+      assert.ok(ownersCount);
+      assert.equal(ownersCount.toNumber(), 1);
+      const leaderBoardEntry = await bananoTokenProxy.getOwnerTokenCountByIndex(0);
+      assert.ok(leaderBoardEntry);
+      assert.equal(leaderBoardEntry[0], player);
+      // TODO: Improve test
+      // We check against 2 because of the previous test
+      assert.equal(leaderBoardEntry[1].toNumber(), 2);
+    });
+  });
 });
